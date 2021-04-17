@@ -13,10 +13,32 @@ volumes:
 services:
   app:
     build: .
-    container_name: app
+    container_name: cgcorp
+    depends_on:
+      database:
+        condition: service_healthy
     volumes:
       - app_nfsmount:/var/www/cgcorp/
     ports:
       - "8090:80"
     networks:
       - backend
+
+  database:
+    container_name: cgcorp-mysql
+    restart: unless-stopped
+    image: mysql:5.7
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: "password1"
+      MYSQL_ROOT_PASSWORD: "password1"
+    volumes:
+      - ~/docker/database/mysql/57/cgcorp:/var/lib/mysql:delegated
