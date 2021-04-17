@@ -1,0 +1,9 @@
+.idea
+.DS_Store
+.php_cs.cache
+
+app/tests/_*
+app/.deptrac.cache
+app/depfile.yml
+app/database_dumps*
+app/.phpunit.result.cache

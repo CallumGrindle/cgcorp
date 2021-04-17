@@ -1,0 +1,9 @@
+.git
+.sass-cache
+.DS_Store
+.gitignore
+.php_cs.cache
+README.md
+
+app/vendor
+app/var

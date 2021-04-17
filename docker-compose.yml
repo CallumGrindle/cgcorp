@@ -1,0 +1,22 @@
+version: '3'
+networks:
+   backend:
+
+volumes:
+  app_nfsmount:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=host.docker.internal,rw,nolock,hard,nointr,nfsvers=3
+      device: ":/System/Volumes/Data/${PWD}/app"
+
+services:
+  app:
+    build: .
+    container_name: app
+    volumes:
+      - app_nfsmount:/var/www/cgcorp/
+    ports:
+      - "8090:80"
+    networks:
+      - backend
